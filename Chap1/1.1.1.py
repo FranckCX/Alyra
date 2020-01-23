@@ -1,6 +1,6 @@
 import random
 
-nombre = input("Entre un nombre de 1 à 100 >>> Press Enter <<< pour commencer")
+nombre = input("Entre un nombre de 1 à 100 >>> Press Enter <<< pour jouer")
 
 n = random.randint(1, 100)
 
