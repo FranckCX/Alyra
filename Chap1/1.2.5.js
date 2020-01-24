@@ -17,7 +17,7 @@ class Noeud {
         out += " P";
         
         this.parent === undefined ? out += "-" : out += this.parent.valeur;
-        log(out);
+        console.log(out);
     }
     
     ajouterNoeud(valeur) {
@@ -188,3 +188,21 @@ console.log(a.infixe());
 a.supprimerNoeud(14);
 console.log(a.supprimerNoeud(14));
 a.printNoeud(13);
+a.supprimerNoeud(32);
+a.printNoeud(31);
+a.supprimerNoeud(13);
+a.printNoeud(11);
+a.printNoeud(12);
+a.printNoeud(14);
+a.supprimerNoeud(40);
+a.printNoeud(33);
+a.printNoeud(35);
+a.printNoeud(46);
+a.supprimerNoeud(24);
+a.printNoeud(18);
+a.supprimerNoeud(31);
+a.printNoeud(33);
+a.supprimerNoeud(null);
+console.log(a.infixe());
+a.supprimerNoeud(20);
+console.log(a.infixe());
