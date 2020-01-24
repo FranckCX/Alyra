@@ -56,7 +56,55 @@ class Noeud {
         return undefined;
     }
     
-    supprimerNoeud(valeur) {}
+    supprimerNoeud(valeur) {
+        let noeud = this.trouverNoeud(valeur);
+        if (noeud !== undefined) {
+          noeud._supprimer();
+          return true;
+        } else {
+          return false;
+        }
+      }
+    
+      _supprimer() {
+        if (this.gauche === undefined && this.droite === undefined) {
+          this.parent._supprimerEnfant(this);
+        } else if (this.gauche === undefined) {
+          this.parent._ajouterNoeud(this.droite);
+        } else if (this.droite === undefined) {
+          this.parent._ajouterNoeud(this.gauche);
+        } else {
+          var noeud= undefined;  
+          
+          let inf = this.gauche;
+          while (inf.droite !== undefined) {
+            inf = inf.droite;
+          }
+          let sup = this.droite;
+          while (sup.gauche !== undefined) {
+            sup = sup.gauche;
+          }
+          
+          if (this.valeur - inf.valeur < sup.valeur - this.valeur) {
+            noeud = this.gauche;
+            noeud._ajouterNoeud(this.droite);
+          } else {
+            noeud = this.droite;
+            noeud._ajouterNoeud(this.gauche);
+          }
+    
+          noeud.parent._supprimerEnfant(noeud);
+          this.parent._ajouterNoeud(noeud);
+        }
+      }
+    
+      _supprimerEnfant(noeud) {
+        if (this.gauche === noeud) {
+          this.gauche = undefined;
+        } else {
+          this.droite = undefined;
+        }
+      }
     
     infixe() {
         let parcours = [];
