@@ -18,11 +18,11 @@ function genererAdresseBitcoin() {
     //1- Choisir la clé publique aléatoirement
     let array = new Uint8Array(32);
     getRandomValues(array);
-    let clePublic = array.join('');
-    console.log(`Clé publique: ${clePublic}`);
+    let clePublique = array.join('');
+    console.log(`Clé publique: ${clePublique}`);
 
     //2- Obtention du hash ripemd160 en faisant auparavant un SHA-256 de la clé publique   
-    let hash160 = ripemd160(sha256(clePublic));
+    let hash160 = ripemd160(sha256(clePublique));
     console.log(`Clé publique en ripemd160: ${hash160}`);
 
     //3- Contrôle de fin : Calcul des 4 premiers octets du sha256(sha256(0x00 + hash160))
