@@ -6,22 +6,22 @@ uint creneauxLibres = 12;
 uint tour;
 
   function sinscrire(string nomDArtiste) public {
-      if(creneauxLibres>0){
+      if(creneauxLibres>0) {
         passagesArtistes[12-creneauxLibres] = nomDArtiste;
         creneauxLibres -= 1;
       }
   }
 
   function passeralArtisteSuivant() public {
-    if(tour < creneauxLibres){
+    if(tour < creneauxLibres) {
       tour += 1;
     }
   }
 
-  function artisteEnCours() public view returns (string memory){
-    if (tour < creneauxLibres){
+  function artisteEnCours() public view returns (string memory) {
+    if (tour < creneauxLibres) {
       return passagesArtistes[tour];
-    }else{
+    } else {
       return "FIN";
     }
   }
