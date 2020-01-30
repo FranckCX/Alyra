@@ -1,0 +1,38 @@
+1- Lancer un noeud bitcoind en regtest
+
+On installe d'abord bitcoind:
+
+sudo add-apt-repository ppa:bitcoin/bitcoin
+sudo apt-get update
+sudo apt-get install bitcoind
+mkdir ~/.bitcoin/ && cd ~/.bitcoin/
+
+On lance bitcoind en regtest:
+
+bitcoind -regtest -daemon
+
+2- Etablir les ports utilisés pour la communication
+3- Etablir les protocoles de la suite TCP/IP utilisés
+
+netstat -tlnpu | grep bitcoind
+NB: t=tcp u=udp l=listening n=numeric form p=show processes
+tcp        0      0 127.0.0.1:18443         0.0.0.0:*               LISTEN      13285/bitcoind      
+tcp        0      0 0.0.0.0:18444           0.0.0.0:*               LISTEN      13285/bitcoind      
+tcp6       0      0 ::1:18443               :::*                    LISTEN      13285/bitcoind      
+tcp6       0      0 :::18444                :::*                    LISTEN      13285/bitcoind   
+
+
+4- Mêmes questions pour le testnet
+
+On lance bitcoind en testnet:
+
+bitcoind -testnet -daemon
+ 
+tcp        0      0 127.0.0.1:18332         0.0.0.0:*               LISTEN      13418/bitcoind      
+tcp        0      0 0.0.0.0:18333           0.0.0.0:*               LISTEN      13418/bitcoind      
+tcp6       0      0 ::1:18332               :::*                    LISTEN      13418/bitcoind      
+tcp6       0      0 :::18333                :::*                    LISTEN      13418/bitcoind  
+
+
+
+Les noeuds en testnet ont accès a toutes les ip locales.
