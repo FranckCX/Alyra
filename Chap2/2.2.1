@@ -27,12 +27,11 @@ tcp6       0      0 :::18444                :::*                    LISTEN      
 On lance bitcoind en testnet:
 
 bitcoind -testnet -daemon
- 
+netstat -tlnpu | grep bitcoind
 tcp        0      0 127.0.0.1:18332         0.0.0.0:*               LISTEN      13418/bitcoind      
 tcp        0      0 0.0.0.0:18333           0.0.0.0:*               LISTEN      13418/bitcoind      
 tcp6       0      0 ::1:18332               :::*                    LISTEN      13418/bitcoind      
 tcp6       0      0 :::18333                :::*                    LISTEN      13418/bitcoind  
-
 
 
 Les noeuds en testnet ont accès a toutes les ip locales.
