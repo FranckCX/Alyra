@@ -1,0 +1,77 @@
+h1 {
+   font-size: 80px;
+   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+   /*font-weight: 50px;*/
+   text-align: center;
+   background-color: lightslategray;
+   border: solid 3px;
+   border-radius: 50px;
+}
+
+h2 {
+   font-size: 60px;
+   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+   /*font-weight: 50px;*/
+   text-align: center;
+   background-color: lightslategray;
+   border: solid 3px;
+   border-radius: 100px;
+   padding-left: 0px;
+}
+
+.paraph1 {
+   font-size: 60px;
+   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+   font-style: italic;
+   font-variant: initial;
+   text-align: center;
+}
+
+span {
+   font-size: 60px;
+}
+.cadran1 {
+   /*height: 400px;
+   width: 600px;*/
+   background-color: lightblue;
+   border: solid 3px;
+   border-radius: 10px;
+   padding: 75px;
+   text-align: center;
+}
+
+.cadran2 {
+   /*height: 400px;
+   width: 600px;*/
+   background-color: lightblue;
+   border: solid 3px;
+   border-radius: 10px;
+   padding: 75px;
+   text-align: center;
+   /*display: block;*/
+}
+
+.cadran3 {
+   /*height: 400px;
+   width: 600px;*/
+   background-color: lightblue;
+   border: solid 3px;
+   border-radius: 10px;
+   padding: 75px;
+   text-align: center;
+   /*display: block;*/
+}
+
+.zoneCadrans {
+   background-color: rgb(55, 63, 66);
+   border: solid 3px;
+   border-radius: 10px;
+   padding: 75px;
+   display: block;
+}
+
+.explication {
+   padding: 75px;
+   color: white;
+   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+}
