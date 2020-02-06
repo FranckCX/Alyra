@@ -5,9 +5,9 @@ string[12] passagesArtistes;
 uint creneauxLibres = 12;
 uint tour;
 
-  function sinscrire(string memory nomDArtiste) public {
-      if(creneauxLibres>0) {
-        passagesArtistes[12-creneauxLibres] = nomDArtiste;
+  function sinscrire(string memory _nomDArtiste) public {
+      if(creneauxLibres > 0) {
+        passagesArtistes[12 - creneauxLibres] = _nomDArtiste;
         creneauxLibres -= 1;
       }
   }
