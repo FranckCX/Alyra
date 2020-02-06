@@ -1,7 +1,11 @@
-pragma solidity ^0.4.25;
+pragma solidity ^0.5.10;
 contract estMembreDelAssemblee {
 
-address[]membres;
+address[] membres;
+
+function rejoindre() public {
+    membres.push(msg.sender);
+    }
 
 function estMembre(address utilisateur) public view returns (bool) {
     for (uint i = 0; i < membres.length; i++) {
