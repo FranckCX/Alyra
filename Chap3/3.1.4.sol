@@ -33,21 +33,21 @@ contract Assemblee {
         decisions.push(nouvelleProposition);
     }
 
-    function voter(uint indice, bool value) public {
+    function voter(uint _indice, bool _value) public {
         require(estMembre(msg.sender),
         "Il faut être membre.");
-        require(!decisions[indice].aDejaVote[msg.sender],
+        require(!decisions[_indice].aDejaVote[msg.sender],
         "Vous avez déjà voté !");
-        if (value == true) {
-            decisions[indice].pour++;
+        if (_value == true) {
+            decisions[_indice].pour++;
         } else {
-            decisions[indice].contre++;
+            decisions[_indice].contre++;
         }
         decisions[indice].aDejaVote[msg.sender] = true;
     }
 
-    function comptabiliser(uint indice) public view returns (int){
-        return int(decisions[indice].pour - decisions[indice].contre);
+    function comptabiliser(uint _indice) public view returns (int){
+        return int(decisions[_indice].pour - decisions[_indice].contre);
     }
 
 }
