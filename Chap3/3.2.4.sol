@@ -34,17 +34,19 @@ contract CagnotteFestival is Cogere {
     constructor() public {
         dateFestival = block.timestamp;
         dateLiquidation = dateFestival + 2 weeks;
+        jour = dateFestival;
     }
 
     mapping (address => bool) festivaliers;
-    mapping (uint => uint) depenses;
     uint public placesRestantes = 10000;
     uint private depensesTotales;
     string[] public sponsors;
     uint constant LIMITE = 100;
     uint public dateFestival;
     uint public dateLiquidation;
+    uint public jour;
     uint private cagnotte;
+    uint private depensesParJour;
     uint private depensesMaxParJour = cagnotte / 14 ;
 
     function acheterTicket() public payable {
@@ -63,15 +65,16 @@ contract CagnotteFestival is Cogere {
         require(estOrga(msg.sender));
         require(montant > 0);
         destinataire.transfer(montant);
-        _ajoutCagnotte(montant);
+        _comptabiliserDepense(montant);
     }
 
-    function _comptabiliserDepense(uint montant) private {
+    function _comptabiliserDepense(uint montant) internal {
+        depensesParJour += montant;
         depensesTotales += montant;
     }
 
-    function sponsoriser(string memory nom) public payable adresse0 {
-        require(msg.value >= 30 ether && sponsors.length <= LIMITE, "Don de 30 ethers minimum");
+    function sponsoriser(string memory nom) external payable adresse0 {
+        require(msg.value >= 30 ether && sponsors.length <= LIMITE, "Don de 30 ethers minimum dans la limite des places disponibles.");
         sponsors.push(nom);
     }
 
@@ -87,7 +90,7 @@ contract CagnotteFestival is Cogere {
         return sponsors[i];
     }
 
-    function _ajoutCagnotte(uint montant) private {
+    function _ajoutCagnotte(uint montant) internal {
         cagnotte += montant;
     }
 
@@ -95,5 +98,14 @@ contract CagnotteFestival is Cogere {
         return cagnotte;
     }
 
+    function controleDepenses() internal returns (bool) {
+        if (block.timestamp - jour > 1 days) {
+            jour += days;
+            depensesParJour = 0;
+            controleDepenses();
+        } else {
+            return depensesParJour < depensesMaxParJour ? true : false;
+        }
+    }
 
 }
