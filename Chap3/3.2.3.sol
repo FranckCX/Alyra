@@ -34,6 +34,7 @@ contract CagnotteFestival is Cogere {
     uint public placesRestantes;
     uint private depensesTotales;
     string[] public sponsors;
+    uint constant LIMITE = 100;
 
     function acheterTicket() public payable {
         require(msg.value >= 500 finney,
@@ -56,7 +57,7 @@ contract CagnotteFestival is Cogere {
 
     function sponsoriser(string memory nom) public payable {
         require(msg.sender != address(0));
-        require(msg.value >= 0.3 ether, "Don de 30 ethers minimum");
+        require(msg.value >= 30 ether && sponsors.length <= LIMITE, "Don de 30 ethers minimum");
         sponsors.push(nom);
     }
 
