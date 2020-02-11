@@ -29,14 +29,8 @@ contract PlaceDeMarche {
     mapping (address => bool) estBanni;
     mapping (address => Utilisateur) public utilisateurs;
 
-    constructor() public {
-        utilisateurs[msg.sender].nom = "Admin";
-        utilisateurs[msg.sender].estAdmin = true;
-        utilisateurs[msg.sender].reputation = 1;
-    }
-
     modifier estAdmin {
-        require(utilisateurs[msg.sender].estAdmin == true,
+        require(utilisateurs[msg.sender].estAdmin,
         "Vous devez être administrateur.");
         _;
     }
@@ -47,36 +41,44 @@ contract PlaceDeMarche {
         _;
     }
 
-    modifier estBan {
+    modifier nestPasBan {
         require(estBanni[msg.sender] == false,
         "Vous avez été banni.");
         _;
     }
 
-    function inscription(string memory nom) public adresse0 estBan {
+    constructor() public {
+        utilisateurs[msg.sender].nom = "Admin";
+        utilisateurs[msg.sender].estAdmin = true;
+        utilisateurs[msg.sender].reputation = 1;
+    }
+
+    function inscription(string memory _nom) public adresse0 nestPasBan {
         require(utilisateurs[msg.sender].estInscrit == false, "Vous êtes déjà inscrit.");
-        utilisateurs[msg.sender].nom = nom;
+        utilisateurs[msg.sender].nom = _nom;
         utilisateurs[msg.sender].reputation = 1;
         utilisateurs[msg.sender].estInscrit = true;
     }
 
-    function bannirUtilisateur(address adresseBan) public estAdmin {
-        estBanni[adresseBan] = true;
+    function bannirUtilisateur(address _adresseBan) public estAdmin {
+        estBanni[_adresseBan] = true;
     }
 
-    function donnerDroitAdmin(address adresseNouvelAdmin) public adresse0 estAdmin estBan {
-        utilisateurs[adresseNouvelAdmin].estAdmin = true;
+    function donnerDroitAdmin(address _adresseNouvelAdmin) public adresse0 estAdmin {
+        require(estBanni[_adresseNouvelAdmin] = false,
+        "Petit contrôle de papier pour le nouvel Admin.");
+        utilisateurs[_adresseNouvelAdmin].estAdmin = true;
     }
 
-    function ajouterDemande(uint remuneration, uint secs, string memory description, uint minReputation) public payable adresse0 estBan {
-        require(msg.value == remuneration * 102 / 100,
+    function ajouterDemande(uint _remuneration, uint _secs, string memory _description, uint _minReputation) public payable adresse0 nestPasBan {
+        require(msg.value == _remuneration.mul(102).div(100),
         "Déposer la rémunération en ajoutant 2% de frais pour la plateforme.");
         Demande memory nouvelleDemande;
-        nouvelleDemande.remuneration = remuneration / 102 * 100;
+        nouvelleDemande.remuneration = _remuneration.div(102).mul(100);
         nouvelleDemande.demandeur = msg.sender;
-        nouvelleDemande.description = description;
-        nouvelleDemande.minReputation = minReputation;
-        nouvelleDemande.delaiMax = secs;
+        nouvelleDemande.description = _description;
+        nouvelleDemande.minReputation = _minReputation;
+        nouvelleDemande.delaiMax = _secs;
         nouvelleDemande.etat = Etat.OUVERTE;
         demandes.push(nouvelleDemande);
     }
