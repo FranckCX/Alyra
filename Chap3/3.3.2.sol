@@ -19,6 +19,10 @@ contract Pendule  {
 
     Pulsation pulse;
 
+    constructor(string memory _message) public {
+        pulse = new Pulsation(_message);
+    }
+
     function provoquerUnePulsation()public{
     pulse.ajouterBattement();
     }
