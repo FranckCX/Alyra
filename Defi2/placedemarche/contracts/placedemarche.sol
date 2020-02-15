@@ -1,4 +1,4 @@
-pragma solidity ^0.6.0;
+pragma solidity ^0.5.16;
 pragma experimental ABIEncoderV2;
 
 import "./SafeMath.sol";
@@ -118,5 +118,15 @@ contract PlaceDeMarche {
         debloquerFonds[demandes[_idDemande].illustrateur] = true;
         utilisateurs[demandes[_idDemande].illustrateur].reputation++;
         demandes[_idDemande].etat = Etat.FERMEE;
+    }
+
+    function retrait(uint _idDemande) public adresse0 estInscrit nestPasBan minRep(_idDemande) {
+        require(msg.sender == demandes[_idDemande].illustrateur,
+        "Vous n'êtes pas l'illustrateur de cette demande.");
+        require(demandes[_idDemande].etat == Etat.FERMEE,
+        "Vous devez d'abord livrer votre travail.");
+        require(debloquerFonds[demandes[_idDemande].illustrateur] = true,
+        "Vous devez d'abord livrer votre travail");
+        msg.sender.transfer(demandes[_idDemande].remuneration);
     }
 }
