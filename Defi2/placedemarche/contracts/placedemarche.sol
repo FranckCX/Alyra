@@ -111,6 +111,11 @@ contract PlaceDeMarche {
         demandes[_idDemande].illustrateur = demandes[_idDemande].candidats[_idCandidat];
     }
 
+    function produireHash(string memory _url) public pure returns (bytes32 Hash) {
+        bytes32 urlHash = keccak256(bytes(_url));
+        return urlHash;
+    }
+
     function livraison(uint _idDemande, bytes32 _urlHash) public adresse0 estInscrit nestPasBan minRep(_idDemande) {
         require(demandes[_idDemande].etat == Etat.ENCOURS,
         "Votre demande doit être acceptée.");
