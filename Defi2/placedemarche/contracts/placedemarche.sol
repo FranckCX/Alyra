@@ -65,6 +65,10 @@ contract PlaceDeMarche {
         utilisateurs[msg.sender].reputation = 100;
     }
 
+    function testModifiers() public view adresse0 estInscrit nestPasBan returns (bool) {
+        return true;
+    }
+
     function inscription(string memory _nom) public adresse0 nestPasBan {
         require(utilisateurs[msg.sender].estInscrit == false, "Vous êtes déjà inscrit.");
         utilisateurs[msg.sender].nom = _nom;
@@ -95,12 +99,14 @@ contract PlaceDeMarche {
         demandes.push(nouvelleDemande); //tester par incrémentation
         emit DemandePostee(_rem, _secs, _desc, _minReputation);
     }
+    //adresse0 estInscrit nestPasBan
 
-    function listerDemandes() public estInscrit nestPasBan view returns (Demande[] memory) {
+    function listerDemandes() public view returns (Demande[] memory) {
         return demandes;
     }
+    // estInscrit nestPasBan
 
-    function postuler(uint _idDemande) public adresse0 estInscrit nestPasBan minRep(_idDemande) {
+    function postuler(uint _idDemande) public  estInscrit nestPasBan minRep(_idDemande) {
         require(demandes[_idDemande].etat == Etat.OUVERTE,
         "Votre demande est en cours de traitement.");
         demandes[_idDemande].candidats.push(msg.sender);
