@@ -9,21 +9,21 @@ contract PlaceDeMarche {
 
     struct Utilisateur {
         string nom;
+        uint reputation;
         bool estInscrit;
         bool estAdmin;
-        uint reputation;
     }
 
     struct Demande {
-        uint remuneration;
-        address demandeur;
-        uint delaiMax;
-        string description;
-        Etat etat;
-        uint minReputation;
-        address[] candidats;
         bytes32 urlHash;
+        string description;
+        uint remuneration;
+        uint delaiMax;
+        uint minReputation;
+        address demandeur;
+        address[] candidats;
         address illustrateur;
+        Etat etat;
     }
 
     enum Etat { OUVERTE, ENCOURS, FERMEE }
@@ -31,6 +31,8 @@ contract PlaceDeMarche {
     mapping (address => bool) public estBanni;
     mapping (address => Utilisateur) public utilisateurs;
     mapping (address => bool) private debloquerFonds;
+
+    event DemandePostee(uint remuneration, uint timer, string description, uint minReputationRequis);
 
     modifier estAdmin {
         require(utilisateurs[msg.sender].estAdmin,
@@ -72,7 +74,7 @@ contract PlaceDeMarche {
 
     function bannirUtilisateur(address _adresseBan) public estAdmin {
         estBanni[_adresseBan] = true;
-    }
+    } //
 
     function donnerDroitAdmin(address _adresseNouvelAdmin) public adresse0 estAdmin {
         require(estBanni[_adresseNouvelAdmin] = false,
@@ -90,7 +92,8 @@ contract PlaceDeMarche {
         nouvelleDemande.minReputation = _minReputation;
         nouvelleDemande.delaiMax = _secs;
         nouvelleDemande.etat = Etat.OUVERTE;
-        demandes.push(nouvelleDemande);
+        demandes.push(nouvelleDemande); //tester par incrémentation
+        emit DemandePostee(_rem, _secs, _desc, _minReputation);
     }
 
     function listerDemandes() public estInscrit nestPasBan view returns (Demande[] memory) {
