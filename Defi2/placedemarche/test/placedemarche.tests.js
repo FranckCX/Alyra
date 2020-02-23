@@ -14,11 +14,12 @@ contract("PlaceDeMarche", accounts => {
     const secs = new BN("1546546132");
     const desc = "Description de la misson";
     const minRep = new BN("3");
+    const etat = { OUVERTE:"OUVERTE", ENCOURS:"ENCOURS", FERMEE:"FERMEE" };
     
-    beforeEach(async () => {
+    beforeEach( async() => {
         this.PlaceDeMarche = await PlaceDeMarche.new({from: owner});
         await this.PlaceDeMarche.inscription(candidat, {from: candidat});
-        const ajouterDemande = await this.PlaceDeMarche.ajouterDemande(rem, secs, desc, minRep, {from: candidat, value: new BN("102")});
+        await this.PlaceDeMarche.ajouterDemande(rem, secs, desc, minRep, {from: candidat, value: new BN("102")});
     });
 
     // it("Test modifier admin", async() => {
@@ -49,7 +50,7 @@ contract("PlaceDeMarche", accounts => {
     it("test l'event de demande postée", async() => {
         const ajouterDemande = await this.PlaceDeMarche.ajouterDemande(rem, secs, desc, minRep, {from: candidat, value: new BN("102")});
         expectEvent(ajouterDemande, "DemandePostee", {remuneration:rem, timer:secs, description:desc, minReputationRequis:minRep});
-    })
+    });
     
     it("test nouvelle demande ajout et test du tableau demandes", async() => {
         // const lengthBefore = (await this.placeDeMarche.listerDemande()).length
@@ -57,9 +58,23 @@ contract("PlaceDeMarche", accounts => {
         expect(await this.PlaceDeMarche.listerDemandes()).to.have.lengthOf(2);
     });
 
-    // it("test accepter offre", async() => {
+    it("test postuler pour une offre", async() => {
+        await expectRevert.unspecified(this.PlaceDeMarche.postuler(0, {from: candidat}));
+    }); //marche tant que le require est commenté il faudra gèrer le require avec Etat.OUVERTE
 
-    // });
+    it("test accepter une offre", async() => {
+        await expectRevert.unspecified(this.PlaceDeMarche.accepterOffre(0, candidat));
+    });
+
+    it("test la production de hash", async() => {
+        let url = "test de hash";
+        expect(await this.PlaceDeMarche.produireHash(url));
+    });
+
+    it("test de la livraison", async() => {
+        let bytes32 = "0x000000000000";
+        await expectRevert.unspecified(this.PlaceDeMarche.livraison(0, bytes32));
+    });
 
     it("test le modifier minRep pour postuler", async() => {
         let rep = 0;
