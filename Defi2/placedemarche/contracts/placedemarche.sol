@@ -33,6 +33,8 @@ contract PlaceDeMarche {
     mapping (address => bool) private debloquerFonds;
 
     event DemandePostee(uint remuneration, uint timer, string description, uint minReputationRequis);
+    event APostule(address indexed candidat, uint demande);
+    event Transfer(address indexed receveur, uint montant);
 
     modifier estAdmin {
         require(utilisateurs[msg.sender].estAdmin,
@@ -110,6 +112,7 @@ contract PlaceDeMarche {
         require(demandes[_idDemande].etat == Etat.OUVERTE,
         "Votre demande est en cours de traitement.");
         demandes[_idDemande].candidats.push(msg.sender);
+        emit APostule(msg.sender, _idDemande);
     }
 
     function accepterOffre(uint _idDemande, uint _idCandidat) public adresse0 estInscrit nestPasBan {
@@ -134,13 +137,15 @@ contract PlaceDeMarche {
         demandes[_idDemande].etat = Etat.FERMEE;
     }
 
-    function retrait(uint _idDemande) public adresse0 estInscrit nestPasBan minRep(_idDemande) {
+    function retrait(uint _idDemande) public adresse0 estInscrit nestPasBan  {
         require(msg.sender == demandes[_idDemande].illustrateur,
         "Vous n'êtes pas l'illustrateur de cette demande.");
-        require(demandes[_idDemande].etat == Etat.FERMEE,
-        "Vous devez d'abord livrer votre travail.");
+        // require(demandes[_idDemande].etat == Etat.FERMEE,
+        // "Vous devez d'abord livrer votre travail.");
         require(debloquerFonds[demandes[_idDemande].illustrateur] = true,
         "Vous devez d'abord livrer votre travail");
         msg.sender.transfer(demandes[_idDemande].remuneration);
+        emit Transfer(msg.sender, demandes[_idDemande].remuneration);
     }
+    //minRep(_idDemande)
 }

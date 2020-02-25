@@ -8,13 +8,14 @@ contract("PlaceDeMarche", accounts => {
     const candidat = accounts[1];
     const candidat2 = accounts[2];
     const illustrateur = accounts[3];
-    const balance = new BN(1);
+    // const balance = new BN(1);
     //il faut placer un string ici
     const rem = new BN("100");
     const secs = new BN("1546546132");
     const desc = "Description de la misson";
     const minRep = new BN("3");
-    const etat = { OUVERTE:"OUVERTE", ENCOURS:"ENCOURS", FERMEE:"FERMEE" };
+    const minRep2 = new BN("1");
+    // const etat = { OUVERTE:"OUVERTE", ENCOURS:"ENCOURS", FERMEE:"FERMEE" };
     
     beforeEach( async() => {
         this.PlaceDeMarche = await PlaceDeMarche.new({from: owner});
@@ -47,7 +48,7 @@ contract("PlaceDeMarche", accounts => {
         await expectRevert(this.PlaceDeMarche.ajouterDemande(rem, secs, desc, minRep, {from: candidat, value: new BN("100")}), "Déposer la rémunération en ajoutant 2% de frais pour la plateforme.");
     });
     
-    it("test l'event de demande postée", async() => {
+    it("test de l'event de demande postée", async() => {
         const ajouterDemande = await this.PlaceDeMarche.ajouterDemande(rem, secs, desc, minRep, {from: candidat, value: new BN("102")});
         expectEvent(ajouterDemande, "DemandePostee", {remuneration:rem, timer:secs, description:desc, minReputationRequis:minRep});
     });
@@ -62,6 +63,12 @@ contract("PlaceDeMarche", accounts => {
         await expectRevert.unspecified(this.PlaceDeMarche.postuler(0, {from: candidat}));
     }); //marche tant que le require est commenté il faudra gèrer le require avec Etat.OUVERTE
 
+    it("test de l'event a postulé", async() => {
+        const demande = await this.PlaceDeMarche.ajouterDemande(rem, secs, desc, minRep2, {from: candidat, value: new BN("102")});
+        const postuler = await this.PlaceDeMarche.postuler(1, {from: candidat});
+        expectEvent(postuler, "APostule", {candidat:{from:candidat}, demande:demande});
+    });
+
     it("test accepter une offre", async() => {
         await expectRevert.unspecified(this.PlaceDeMarche.accepterOffre(0, candidat));
     });
@@ -74,6 +81,16 @@ contract("PlaceDeMarche", accounts => {
     it("test de la livraison", async() => {
         let bytes32 = "0x000000000000";
         await expectRevert.unspecified(this.PlaceDeMarche.livraison(0, bytes32));
+    });
+
+    it("test de retrait", async() => {
+        await expectRevert.unspecified(this.PlaceDeMarche.retrait(0,{from: candidat}));
+        expect(await this.PlaceDeMarche.retrait);
+    });// il faut aussi gérer les requires !
+
+    it("test de l'event tranfer", async() => {
+        const retrait = await expectRevert.unspecified(this.PlaceDeMarche.retrait(0,{from: candidat}));
+        expectEvent(retrait, "Transfer", {receveur:{from:candidat}, montant:rem});
     });
 
     it("test le modifier minRep pour postuler", async() => {
