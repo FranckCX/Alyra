@@ -31,7 +31,7 @@ function getLastExchangePriceFor(symbol) {
             return response.json();
         })
         .then(function(myJson) {
-            console.log(`Last exchange price for (${symbol}) : ${myJson.last_price}$`);
+            console.log(`Bitfinex last exchange price for (${symbol}) : ${myJson.last_price}$`);
         })
         .catch(err => console.error(err));
 }
