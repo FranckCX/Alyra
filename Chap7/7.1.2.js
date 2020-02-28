@@ -25,15 +25,15 @@
  
 const fetch = require("node-fetch");
 
-function getLastExchangeRateFor(symbol) {
+function getLastExchangePriceFor(symbol) {
     fetch('https://api.bitfinex.com/v1/pubticker/' + symbol)
         .then(function(response) {
             return response.json();
         })
         .then(function(myJson) {
-            console.log(`Last exchange rate for (${symbol}) : ${myJson.last_price}$`);
+            console.log(`Last exchange price for (${symbol}) : ${myJson.last_price}$`);
         })
         .catch(err => console.error(err));
 }
 
-getLastExchangeRateFor('btcusd')
+getLastExchangePriceFor('btcusd')
