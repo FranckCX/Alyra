@@ -1,0 +1,24 @@
+{
+  "name": "roseico",
+  "version": "1.0.0",
+  "description": "Rose Token",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "franckcx",
+  "license": "ISC",
+  "devDependencies": {
+    "@openzeppelin/contracts": "^2.5.0",
+    "@openzeppelin/test-helpers": "^0.5.4",
+    "concurrently": "^5.1.0"
+  },
+  "dependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^7.0.1",
+    "truffle": "^5.1.13"
+  }
+}
