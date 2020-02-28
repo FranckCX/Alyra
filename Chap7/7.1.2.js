@@ -1,3 +1,18 @@
+const fetch = require("node-fetch");
+
+function getLastExchangePriceFor(symbol) {
+    fetch('https://api.bitfinex.com/v1/pubticker/' + symbol)
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(myJson) {
+            console.log(`Bitfinex last exchange price for (${symbol}) : ${myJson.last_price}$`);
+        })
+        .catch(err => console.error(err));
+}
+
+getLastExchangePriceFor('btcusd');
+
 // const readline = require("readline");
 // const fetch = require("node-fetch");
 // const rl = readline.createInterface({
@@ -23,17 +38,3 @@
 // });
 
  
-const fetch = require("node-fetch");
-
-function getLastExchangePriceFor(symbol) {
-    fetch('https://api.bitfinex.com/v1/pubticker/' + symbol)
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(myJson) {
-            console.log(`Bitfinex last exchange price for (${symbol}) : ${myJson.last_price}$`);
-        })
-        .catch(err => console.error(err));
-}
-
-getLastExchangePriceFor('btcusd')
